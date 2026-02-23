@@ -16,7 +16,7 @@ from clean import load_salary_data, load_game_data, build_modeling_dataset
 def load_model_dataset():
     """Load and return the final modeling dataset used for visualization."""
     salary = load_salary_data()
-    games = load_game_data() 
+    games = load_game_data()
     df = build_modeling_dataset(salary, games)
     return df
 
@@ -33,7 +33,7 @@ def basic_histogram(df: pd.DataFrame):
         return
     plt.figure(figsize=(10, 6))
     # df["season"], may change if named differently in clean.py
-    seasons = df["season"].dropna().astype(int)
+    seasons = df["Season"].dropna().astype(int)
     plt.hist(seasons, bins=range(seasons.min(), seasons.max() + 2), edgecolor="black")
     plt.title("Team-Games per Season")
     plt.xlabel("Season")
@@ -41,11 +41,28 @@ def basic_histogram(df: pd.DataFrame):
     plt.tight_layout()
     plt.show()
 
+### Can make scatter plots, box plots, line plots,
+#   heatmaps, and/or more histograms
+#   meant to explore relationships between 
+#   salary variables and performance variables
+
+
 
 def main():
     df = load_model_dataset()
     print("Model dataset shape:", df.shape)
     basic_histogram(df)
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+def main():
+    df = load_model_dataset()
+    print("Model dataset shape:", df.shape)
+    print("Columns:", list(df.columns))
 
 
 if __name__ == "__main__":
