@@ -55,7 +55,7 @@ def load_game_data():
 
 def build_modeling_dataset(df_salary, df_games):
     """
-    Build a team-season modeling dataset.
+    Build a team-game modeling dataset
 
     TODO:
     1. Filter seasons to 2013–2022
@@ -158,6 +158,7 @@ if __name__ == "__main__":
     salary = load_salary_data()
     games = load_game_data()
 
+
     print("Salary shape:", salary.shape)
     print("Games shape:", games.shape)
 
@@ -167,5 +168,6 @@ if __name__ == "__main__":
     print("\nGame columns:")
     print(games.columns)
 
+    # build a dataset at the team-game granularity
     final_df = build_modeling_dataset(salary, games)
     print("\nFinal modeling dataset shape:", final_df.shape)
