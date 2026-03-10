@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """Modeling skeleton for the NFL salary-performance project.
 
 This module provides a light scaffold for experimentation. Fill in the
@@ -45,7 +44,7 @@ def main():
 
 if __name__ == "__main__":
 	main()
-=======
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -115,4 +114,41 @@ def plot_decision_boundary(model, scaler, X, y, feature_names):
     plt.show()
 
 plot_decision_boundary(model, scaler, X, y, FEATURE_COLS)
->>>>>>> fc1ee61 (Logistic Regression Model)
+
+def main():
+    df = pd.read_csv("data/NFL_Salary_By_Position_Group.csv")
+
+    FEATURE_COLS = ["Offense_P", "Defense_P"]
+    TARGET_COL   = "Playoffs"
+
+    X = df[FEATURE_COLS]
+    y = df[TARGET_COL]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled  = scaler.transform(X_test)
+
+    model = LogisticRegression(max_iter=1000, C=1.0, solver='lbfgs', random_state=42)
+    model.fit(X_train_scaled, y_train)
+
+    y_pred       = model.predict(X_test_scaled)
+    y_pred_proba = model.predict_proba(X_test_scaled)[:, 1]
+
+    print(f"Accuracy: {accuracy_score(y_test, y_pred):.2%}\n")
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred))
+    print("\nClassification Report:")
+    print(classification_report(y_test, y_pred, target_names=["No Playoffs", "Made Playoffs"]))
+
+    coefficients = pd.Series(model.coef_[0], index=FEATURE_COLS)
+    print("Coefficients:")
+    print(coefficients)
+
+    plot_decision_boundary(model, scaler, X, y, FEATURE_COLS)
+
+if __name__ == "__main__":
+    main()
